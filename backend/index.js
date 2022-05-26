@@ -1,24 +1,19 @@
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-
-const PORT = process.env.PORT || 8080;
+const mongoose = require('mongoose');
+const router = require('./routes/user-routes');
 
 const app = express();
-app.use(logger('dev'));
-app.use(cors());
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
+
+app.use('/api', router);
+
+mongoose
+  .connect(
+    'mongodb+srv://grouproject:together@cluster0.e2mht.mongodb.net/datajournal?retryWrites=true&w=majority'
+  )
+  .then(() => {
+    app.listen(8080);
+    console.log('Database is connected to local host 8080');
   })
-);
-app.use(bodyParser.json());
+  .catch((err) => console.log(err));
 
-app.get('/api', (req, res) => {
-  res.json({ message: 'Hello from server!' });
-});
-
-app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-});
+module.exports = app;
