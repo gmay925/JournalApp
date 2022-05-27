@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const router = require('./routes/user-routes');
 
 const app = express();
-
+app.use(express.json());
 app.use('/api', router);
 
 mongoose
   .connect(
-    'mongodb+srv://grouproject:together@cluster0.e2mht.mongodb.net/datajournal?retryWrites=true&w=majority'
+    'mongodb+srv://grouproject:together@cluster0.e2mht.mongodb.net/cluster0?retryWrites=true&w=majority'
   )
   .then(() => {
     app.listen(8080);
